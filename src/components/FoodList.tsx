@@ -17,9 +17,11 @@ export function FoodList({ data }: Props) {
   return (
     <TouchableOpacity activeOpacity={0.6} className="mb-4">
       <Image source={{ uri: data.cover }} className="w-full h-52 rounded-lg" />
-      <View>
-        <Text>Strogonoff</Text>
-        <Text>10 ingredientes | 60 min</Text>
+      <View className="absolute bottom-4 left-4 z-full">
+        <Text className="text-lg font-bold color-white">{data.name}</Text>
+        <Text className="color-white">
+          {data.total_ingredients} ingredientes | {data.time} min
+        </Text>
       </View>
     </TouchableOpacity>
   );
