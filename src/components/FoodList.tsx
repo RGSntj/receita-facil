@@ -10,6 +10,15 @@ export interface FoodsProps {
   cover: string;
   video: string;
   time: number;
+  ingredients: {
+    id: string;
+    name: string;
+    amount: string;
+  }[];
+  instructions: {
+    id: string;
+    text: string;
+  }[];
 }
 
 interface Props {
@@ -23,7 +32,7 @@ export function FoodList({ data }: Props) {
     <TouchableOpacity
       activeOpacity={0.6}
       className="mb-4"
-      onPress={() => navigate("detail", { name: data.name })}
+      onPress={() => navigate("detail", { data: data })}
     >
       <Image source={{ uri: data.cover }} className="w-full h-52 rounded-lg" />
       <View className="absolute bottom-4 left-3">
