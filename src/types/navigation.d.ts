@@ -1,8 +1,10 @@
+import { FoodsProps } from "../components/FoodList";
+
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
       home: undefined;
-      detail: { name: string };
+      detail: { data: FoodsProps };
       favorites: undefined;
       search: undefined;
     }
