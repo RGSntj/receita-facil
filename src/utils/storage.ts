@@ -3,8 +3,8 @@ import { FoodsProps } from "../components/FoodList";
 
 export async function getFavorites(key: string) {
   const favorites = await AsyncStorage.getItem(key);
-  // console.log(favorites);
-  return JSON.parse(favorites) || [];
+
+  return JSON.parse(favorites as string) ?? [];
 }
 
 export async function saveFavorites(key: string, newItem: FoodsProps) {
