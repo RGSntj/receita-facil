@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+import { useNavigation } from "@react-navigation/native";
+
 import {
   View,
   Text,
@@ -9,11 +11,10 @@ import {
   FlatList,
 } from "react-native";
 
-import { Logo } from "../components/Logo";
-
 import { Ionicons } from "@expo/vector-icons";
 import { api } from "../services/api";
 
+import { Logo } from "../components/Logo";
 import { FoodList, FoodsProps } from "../components/FoodList";
 import { Loading } from "../components/Loading";
 
@@ -21,6 +22,8 @@ export function Home() {
   const [searchFood, setSearchFood] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [foods, setFoods] = useState<FoodsProps[] | null>([]);
+
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     async function fetchFoods() {
@@ -38,8 +41,16 @@ export function Home() {
     fetchFoods();
   }, []);
 
+  function handleSearch() {
+    if (!searchFood) return;
+
+    let input = searchFood;
+    setSearchFood("");
+    navigate("search", { name: input });
+  }
+
   return (
-    <SafeAreaView className="flex-1 bg-background pt-9 px-4 pb-3">
+    <SafeAreaView className="flex-1 bg-background pt-5 px-4 pb-3">
       <Logo />
 
       <Text className="text-2xl font-bold color-[#0e0e0e]">
@@ -57,7 +68,7 @@ export function Home() {
           value={searchFood}
           onChangeText={setSearchFood}
         />
-        <TouchableOpacity activeOpacity={0.5}>
+        <TouchableOpacity activeOpacity={0.5} onPress={handleSearch}>
           <Ionicons name="search" size={28} color="#4CBE6C" />
         </TouchableOpacity>
       </View>
