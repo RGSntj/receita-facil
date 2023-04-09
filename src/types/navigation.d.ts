@@ -6,7 +6,7 @@ export declare global {
       home: undefined;
       detail: { data: FoodsProps };
       favorites: undefined;
-      search: undefined;
+      search: { name: string };
     }
   }
 }
