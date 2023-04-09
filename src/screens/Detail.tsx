@@ -8,6 +8,7 @@ import {
   Modal,
   Share,
 } from "react-native";
+
 import { useRoute, useNavigation } from "@react-navigation/native";
 
 import { Entypo, AntDesign, Feather } from "@expo/vector-icons";
@@ -18,12 +19,15 @@ import { Ingredients } from "../components/Ingredients";
 import { Instructions } from "../components/Instructions";
 import { VideoView } from "../components/Video";
 
+import { isFavorite, saveFavorites, removeItem } from "../utils/storage";
+
 interface Params {
   data: FoodsProps;
 }
 
 export function Detail() {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [favorite, setFavorite] = useState(false);
 
   const route = useRoute();
   const navigation = useNavigation();
@@ -31,15 +35,26 @@ export function Detail() {
   const { data } = route.params as Params;
 
   useLayoutEffect(() => {
+    async function getStatusFavorites() {
+      const recipeFavorite = await isFavorite(data);
+      setFavorite(recipeFavorite);
+    }
+
+    getStatusFavorites();
+
     navigation.setOptions({
       title: data.name ? data.name : "Detalhes da receita",
       headerRight: () => (
-        <Pressable>
-          <Entypo name="heart" size={28} color="#ff4141" />
+        <Pressable onPress={() => handleFavoriteReceipe(data)}>
+          {favorite ? (
+            <Entypo name="heart" size={28} color="#ff4141" />
+          ) : (
+            <Entypo name="heart-outlined" size={28} color="#ff4141" />
+          )}
         </Pressable>
       ),
     });
-  }, [data.id]);
+  }, [data.id, favorite]);
 
   function handleOpenModal() {
     setIsOpenModal(true);
@@ -48,11 +63,21 @@ export function Detail() {
   async function handleShareReceipe() {
     try {
       await Share.share({
-        url: "http://google.com",
+        url: `Aprenda a fazer: ${data.video}`,
         message: `Receita: ${data.name}\n${data.total_ingredients}`,
       });
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async function handleFavoriteReceipe(receipe: FoodsProps) {
+    if (favorite) {
+      await removeItem(receipe.id);
+      setFavorite(false);
+    } else {
+      await saveFavorites("@appreceitas", receipe);
+      setFavorite(true);
     }
   }
 
