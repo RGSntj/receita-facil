@@ -15,15 +15,24 @@ import { Ionicons } from "@expo/vector-icons";
 import { api } from "../services/api";
 
 import { FoodList, FoodsProps } from "../components/FoodList";
+import { Loading } from "../components/Loading";
 
 export function Home() {
   const [searchFood, setSearchFood] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const [foods, setFoods] = useState<FoodsProps[] | null>([]);
 
   useEffect(() => {
     async function fetchFoods() {
-      const response = await api.get("/foods");
-      setFoods(response.data);
+      try {
+        setIsLoading(true);
+        const response = await api.get("/foods");
+        setFoods(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     fetchFoods();
@@ -53,12 +62,16 @@ export function Home() {
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={foods}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <FoodList data={item} />}
-      />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={foods}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => <FoodList data={item} />}
+        />
+      )}
     </SafeAreaView>
   );
 }
