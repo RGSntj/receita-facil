@@ -13,8 +13,8 @@ Programa exclusivo e gratuito, promovido pelo Sujeito Programador. <br/>
 <br>
 
 <p align="center">
-  <img alt="projeto receita-fácil" src=".github/preview-2.jpg" width="100%">
-  <img alt="projeto receita-fácil" src=".github/preview.jpg" width="100%">
+  <img alt="projeto receita-fácil" src=".github/preview-2.jpg" width="50%">
+  <img alt="projeto receita-fácil" src=".github/preview.jpg" width="50%">
 </p>
 
 ## 🚀 Tecnologias
