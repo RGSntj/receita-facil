@@ -1,7 +1,7 @@
 <h1 align="center"> Receita Fácil </h1>
 
 <p align="center">
-Programa exclusivo e gratuito, promovido pela Rocketseat para ensino de tecnologias WEB. <br/>
+Programa exclusivo e gratuito, promovido pelo Sujeito Programador. <br/>
 </p>
 
 <p align="center">
